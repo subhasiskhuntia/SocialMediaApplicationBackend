@@ -25,4 +25,5 @@ public class ChatMessage {
     private String receiver; 
     private String message;
     private LocalDateTime time;
+    private String chatIdentifier;
 }

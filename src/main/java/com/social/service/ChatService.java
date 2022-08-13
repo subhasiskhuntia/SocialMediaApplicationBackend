@@ -1,5 +1,6 @@
 package com.social.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,22 @@ public class ChatService {
     public List<ChatMessage> previousMessage(String sender,String receiver) {
         return chatDao.getPreviousMessages(sender,receiver);
     }
+
+    public List<ChatMessage> getPreviousContactedPerson(String sender) {
+        return chatDao.getPreviousContactedPerson(sender);
+    }
+    // public void updateId(){
+    //     List<ChatMessage> messages=chatDao.findAll();
+    //     messages.forEach(message-> {
+
+    //         char charArray[] = (message.getSender()+message.getReceiver()) .toCharArray();
+    //         Arrays.sort(charArray);
+    //         String newId=new String(charArray);
+    //         message.setChatIdentifier(newId);
+    //         System.out.println(newId);
+    //         chatDao.save(message);
+    //     }
+    //     );
+    // }
 
 }
