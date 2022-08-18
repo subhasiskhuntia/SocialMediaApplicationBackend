@@ -32,9 +32,9 @@ public class User {
     private String firstName;
     @Column(length = 50)
     private String lastName;
-    @Column(length = 20)
-    private String dob;
-    @Column(length = 50)
+    @Column
+    private LocalDate dob;
+    @Column
     private String password;
     @Column(length = 50,unique = true)
     private String email;
@@ -44,7 +44,7 @@ public class User {
     private String about;
     @CreationTimestamp
     @Column(updatable = false,nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
