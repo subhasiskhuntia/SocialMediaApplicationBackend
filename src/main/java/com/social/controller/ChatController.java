@@ -39,6 +39,7 @@ public class ChatController {
     }
     @GetMapping(value = "previousMessage/{sender}/{receiver}")
     public List<ChatMessage> getPreviousMessages(@PathVariable("sender") String sender,@PathVariable("receiver") String receiver){
+        System.out.println("inside the previous messages");
         return this.chatService.previousMessage(sender,receiver);
     }
 

@@ -28,15 +28,6 @@ import com.social.service.CustomUserDetailsService;
 
 import io.jsonwebtoken.impl.DefaultClaims;
 
-// import com.ecom.bean.AuthenticationRequest;
-// import com.ecom.bean.AuthenticationResponse;
-// import com.ecom.bean.Login;
-// import com.ecom.dao.UserDAO;
-// import com.ecom.entity.User;
-// import com.ecom.serviceImpl.CustomUserDetailsService;
-
-// import io.jsonwebtoken.impl.DefaultClaims;
-
 @RestController
 // @CrossOrigin
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", maxAge = 1800)

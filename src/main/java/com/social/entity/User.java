@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,10 +48,16 @@ public class User {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "createdBy",cascade = CascadeType.ALL)
+    private List<Post> posts;
 
-    @OneToMany(mappedBy = "commentBy")
+
+    @OneToMany(mappedBy = "commentBy",cascade = CascadeType.ALL)
     private List<Comment> userComments;
-    @OneToMany(mappedBy = "likeBy")
+    @OneToMany(mappedBy = "likeBy",cascade = CascadeType.ALL)
     private List<Likes> userLikes;
+
+    // @OneToMany(mappedBy = "user2")
+    // private List<Friends> friends;
 
 }

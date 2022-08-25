@@ -53,9 +53,24 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(
 						HttpMethod.OPTIONS,
 						"/hellouser",
-						"sayHello")
-				.hasAnyRole("USER", "ADMIN")
-				.antMatchers("/authenticate",
+						"/sayHello",
+						"/server1/**",
+						"/app/topic/return-to/{recipient}",
+						"/getPreviousContactedPerson/{sender}",
+						"/previousMessage/{sender}/{receiver}",
+						"/api/user/post",
+						"/api/user/userPosts",
+						"/api/user/sendFriendRequest",
+						"/api/user/friends",
+						"/api/user/pendingFriendRequest",
+						"/api/user/acceptFriendRequest",
+						"/api/user/postForUser",
+						"/api/user/likePost",
+						"/api/user/getUserLikes"
+						)
+						.hasAnyRole("USER", "ADMIN")
+						.antMatchers("/authenticate",
+						"/api/user/suggestedFriends",
 						"/register",
 						"/refreshtoken",
 						"/api/user/getUserDetails",

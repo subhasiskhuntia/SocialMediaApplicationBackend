@@ -47,18 +47,20 @@ public class JwtUtil {
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 
-		Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
-		if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-			claims.put("isAdmin", true);
-		}
-		if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-			claims.put("isUser", true);
-		}
+		// Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
+		// if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+		// 	claims.put("isAdmin", true);
+		// }
+		// if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+		// 	claims.put("isUser", true);
+		// }
+		claims.put("isUser", true);
 		
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
+		System.out.println(claims+" claims and subject"+subject);
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
