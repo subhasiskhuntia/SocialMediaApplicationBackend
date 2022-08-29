@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,8 +40,10 @@ public class Post {
     @ManyToOne
     @JsonIgnore
     private User createdBy;
+    @JsonIgnore
     @OneToMany(mappedBy = "commentPost",cascade = CascadeType.ALL)
     private List<Comment> comments;
+    @JsonIgnore
     @OneToMany(mappedBy = "likePost",cascade = CascadeType.ALL)
     private List<Likes> likes;
 }

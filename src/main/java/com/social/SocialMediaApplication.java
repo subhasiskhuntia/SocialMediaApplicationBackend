@@ -1,6 +1,7 @@
 package com.social;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.social.dao.CommentDao;
 import com.social.dao.FriendDao;
 import com.social.dao.PostDao;
 import com.social.dao.UserDao;
@@ -33,6 +35,9 @@ public class SocialMediaApplication implements CommandLineRunner{
 	private FriendDao friendDao;
 	@Autowired
 	private PostDao postDao;
+
+	@Autowired
+	private CommentDao commentDao;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SocialMediaApplication.class, args);
@@ -67,6 +72,13 @@ public class SocialMediaApplication implements CommandLineRunner{
 		// postDao.getFriendsPost(1L).forEach(a->System.out.println(a.get("title")));
 		// System.out.println(userDao.findByUsername("subhasiskhuntia506@gmail.com").getUserLikes());
 		// System.out.println(postDao.findById(10L).orElse(null).getLikes());
+		// System.out.println(userDao.findByUsername("subhasiskhuntia506@gmail.com"));
+		commentDao.getCommentsOfUser("subhasiskhuntia506@gmail.com").forEach(a->{
+			for(Map.Entry<String,Object> entry: a.entrySet()){
+				System.out.println(entry.getKey()+" "+ entry.getValue());
+			}
+			System.out.println("__________________________________");
+		});
 	}
 
 }

@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,13 +49,15 @@ public class User {
     @Column(updatable = false,nullable = false)
     private LocalDateTime createdAt;
     @UpdateTimestamp
+    @JsonIgnore
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "createdBy",cascade = CascadeType.ALL)
     private List<Post> posts;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "commentBy",cascade = CascadeType.ALL)
     private List<Comment> userComments;
+    @JsonIgnore
     @OneToMany(mappedBy = "likeBy",cascade = CascadeType.ALL)
     private List<Likes> userLikes;
 

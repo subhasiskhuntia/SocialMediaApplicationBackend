@@ -4,21 +4,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.social.dao.UserDao;
-import com.social.entity.Friends;
+import com.social.entity.Comment;
 import com.social.entity.Likes;
 import com.social.entity.Post;
 import com.social.entity.User;
 import com.social.service.OtpServiceImpl;
 import com.social.service.UserServiceImpl;
 
-@RestController
+@RestController 
 @CrossOrigin
 public class UserController {
     @Autowired
@@ -62,7 +62,7 @@ public class UserController {
     @PostMapping(value = "/api/user/friends")
     public List<User> friends(@RequestBody Map<String ,String> requestMap){
         String email=requestMap.get("email");
-        System.out.println(email);
+        // System.out.println(email);
         return this.userService.getFriends(email);
     }
     @PostMapping(value = "/api/user/pendingFriendRequest")
@@ -75,5 +75,13 @@ public class UserController {
     public List<Likes> getUserLikes(@RequestBody Map<String,String> requestMap){
         String email=requestMap.get("email");
         return this.userService.getUserLikes(email);
+    }
+    @PostMapping(value = "/api/user/getUser")
+    public User getUser(@RequestBody Map<String,String> requestMap){
+        return this.userService.getUser(requestMap.get("email"));
+    }
+    @PostMapping(value = "/api/user/getUserComments")
+    public ResponseEntity<?> getUserComments(@RequestBody Map<String,String> requestMap){
+        return ResponseEntity.ok(this.userService.getUserComments(requestMap.get("email")));
     }
 }

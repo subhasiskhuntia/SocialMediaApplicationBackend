@@ -1,11 +1,11 @@
 package com.social.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.social.dao.LikeDao;
 import com.social.dao.PostDao;
@@ -13,6 +13,8 @@ import com.social.dao.UserDao;
 import com.social.entity.Likes;
 import com.social.entity.Post;
 import com.social.entity.User;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @Service
 public class PostServiceImpl {
@@ -47,6 +49,19 @@ public class PostServiceImpl {
             return "Already Liked";
         }
         return "unable to like this post";
+    }
+
+    public String removeLike(long id, String email) {
+        Likes likes=likeDao.getLikedPost(email,id);
+        // System.out.println(likes);
+        if(likes!=null){
+            Post post= postDao.findById(likes.getLikePost().getId()).orElse(null);
+            post.setTotalLikes(post.getTotalLikes()-1);
+            postDao.saveAndFlush(post);
+            likeDao.delete(likes);
+            return "deleted successfully";
+        }   
+        return "unable to delete";
     }
 
 }

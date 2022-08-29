@@ -1,14 +1,16 @@
 package com.social.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.social.dao.CommentDao;
 import com.social.dao.FriendDao;
 import com.social.dao.PostDao;
 import com.social.dao.UserDao;
+import com.social.entity.Comment;
 import com.social.entity.Friends;
 import com.social.entity.Likes;
 import com.social.entity.Post;
@@ -25,13 +27,35 @@ public class UserServiceImpl {
     @Autowired
     private FriendDao friendDao;
 
-    public String postContent(String email,String postContent){
-        User user=userDao.findByUsername(email);
-        if(user==null){
+    @Autowired
+    private CommentDao commentDao;
+    
+    public User getUser(String email) {
+        User user = userDao.findByUsername(email);
+        user.setPassword(null);
+        // user.getPosts().forEach(a->{
+        // a.setComments(null);
+        // a.setCreatedBy(null);
+        // a.setLikes(null);
+        // });
+        // user.getUserLikes().forEach(a->{
+        // a.setLikeBy(null);
+        // a.setLikePost(Post.builder().id(a.getLikePost().getId()).build());
+        // });
+        // user.getUserComments().forEach(a->{
+        // a.setCommentBy(null);
+        // a.setCommentPost(Post.builder().id(a.getCommentPost().getId()).build());
+        // });
+        return user;
+    }
+
+    public String postContent(String email, String postContent) {
+        User user = userDao.findByUsername(email);
+        if (user == null) {
             return "Login First";
         }
-        Post post =Post.builder().title(postContent).createdBy(user).build();
-        if(postDao.save(post)!=null){
+        Post post = Post.builder().title(postContent).createdBy(user).build();
+        if (postDao.save(post) != null) {
             return "Successfully posted";
         }
         return "Problem while posting please try again";
@@ -42,22 +66,23 @@ public class UserServiceImpl {
     }
 
     public List<User> getSuggestedFriends(String email) {
-        List<User> users= userDao.getSuggestedFriends(email);
-        users.forEach(user->{
+        List<User> users = userDao.getSuggestedFriends(email);
+        users.forEach(user -> {
             user.setPassword("");
             user.setUserComments(null);
             user.setUserLikes(null);
+            user.setPosts(null);
         });
         return users;
     }
 
     public String sendFriendRequest(String email, Long friendId) {
-        User friend1=userDao.findByUsername(email);
-        User friend2= userDao.findById(friendId).orElse(null);
-        Friends friends=Friends.builder().user1(friend1).user2(friend2).build();
-        if(friend1!=null && friend2!=null){
+        User friend1 = userDao.findByUsername(email);
+        User friend2 = userDao.findById(friendId).orElse(null);
+        Friends friends = Friends.builder().user1(friend1).user2(friend2).build();
+        if (friend1 != null && friend2 != null) {
             try {
-                
+
                 friendDao.save(friends);
                 return "Request Sent successfully";
             } catch (Exception e) {
@@ -68,10 +93,10 @@ public class UserServiceImpl {
     }
 
     public List<User> getFriends(String email) {
-        List<Long> friendsId= this.friendDao.getFriends(email);
-        List<User> friends=this.userDao.findAllById(friendsId);
-        System.out.println(friends);
-        friends.forEach(friend->{
+        List<Long> friendsId = this.friendDao.getFriends(email);
+        List<User> friends = this.userDao.findAllById(friendsId);
+        // System.out.println(friends);
+        friends.forEach(friend -> {
             friend.setPassword(null);
             friend.setUserLikes(null);
             friend.setUserComments(null);
@@ -79,9 +104,10 @@ public class UserServiceImpl {
         });
         return friends;
     }
+
     public List<User> pendingFriendRequest(String email) {
-        List<User> friends= this.friendDao.pendingFriendRequest(email);
-        friends.forEach(friend->{
+        List<User> friends = this.friendDao.pendingFriendRequest(email);
+        friends.forEach(friend -> {
             friend.setPassword(null);
             friend.setUserLikes(null);
             friend.setUserComments(null);
@@ -89,13 +115,20 @@ public class UserServiceImpl {
         });
         return friends;
     }
-    public List<Likes> getUserLikes(String email){
-        User user=userDao.findByUsername(email);
-        List<Likes> likes=user.getUserLikes();
-        likes.forEach(a->{
+
+    public List<Likes> getUserLikes(String email) {
+        User user = userDao.findByUsername(email);
+        List<Likes> likes = user.getUserLikes();
+        likes.forEach(a -> {
             a.setLikeBy(null);
-            a.setLikePost(Post.builder().id(a.getLikePost().getId()).build());
+            a.setLikePost(Post.builder().id(a.getLikePost().getId()).title(a.getLikePost().getTitle())
+                    .createdAt(a.getLikePost().getCreatedAt()).build());
         });
         return likes;
+    }
+
+    public List<Map<String,Object>> getUserComments(String email) {
+        return commentDao.getCommentsOfUser(email);
+       
     }
 }

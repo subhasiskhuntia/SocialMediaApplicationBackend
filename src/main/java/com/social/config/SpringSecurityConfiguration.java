@@ -66,7 +66,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/api/user/acceptFriendRequest",
 						"/api/user/postForUser",
 						"/api/user/likePost",
-						"/api/user/getUserLikes"
+						"/api/user/getUserLikes",
+						"/api/user/removeLike",
+						"/api/user/addComment",
+						"/api/user/commentOnAPost",
+						"/api/user/getUserComments",
+						"/api/user/getUsersLikeOnPosts"
 						)
 						.hasAnyRole("USER", "ADMIN")
 						.antMatchers("/authenticate",
