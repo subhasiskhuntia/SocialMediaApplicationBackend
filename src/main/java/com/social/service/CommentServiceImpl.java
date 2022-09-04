@@ -42,7 +42,8 @@ public class CommentServiceImpl {
         a.setCommentBy(
             User.builder().email(a.getCommentBy().getEmail())
                             .firstName(a.getCommentBy().getFirstName())
-                            .lastName(a.getCommentBy().getLastName())
+                            .lastName(a.getCommentBy().getLastName()).
+                            id(a.getCommentBy().getId())
                 .build()));
         return comments;
     }
