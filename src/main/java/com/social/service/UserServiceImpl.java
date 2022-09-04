@@ -1,5 +1,7 @@
 package com.social.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,20 +34,33 @@ public class UserServiceImpl {
     
     public User getUser(String email) {
         User user = userDao.findByUsername(email);
+        if(user==null)
+            return null;
         user.setPassword(null);
-        // user.getPosts().forEach(a->{
-        // a.setComments(null);
-        // a.setCreatedBy(null);
-        // a.setLikes(null);
+        // Map<String,Object> map=new HashMap<>();
+        // map.put("id", user.getId());
+        // map.put("createdAt", user.getCreatedAt());
+        // map.put("dob", user.getDob());
+        // map.put("email", user.getEmail());
+        // map.put("firstName", user.getFirstName());
+        // map.put("lastName", user.getLastName());
+        // map.put("phone", user.getPhone());
+
+        // List<Object> postList=new ArrayList<>();
+        // user.getPosts().forEach(post->{
+        //     Map<String,Object> posts=new HashMap<>();
+        //     posts.put("id", post.getId());
+        //     posts.put("created_at", post.getCreatedAt());
+        //     posts.put("title", post.getTitle());
+        //     posts.put("total_likes", post.getTotalLikes());
+        //     posts.put("email", post.getCreatedBy().getEmail());
+        //     posts.put("first_name", post.getCreatedBy().getFirstName());
+        //     posts.put("last_name", post.getCreatedBy().getLastName());
+        //     posts.put("created_by_id", post.getCreatedBy().getId());
+        //     postList.add(posts);
         // });
-        // user.getUserLikes().forEach(a->{
-        // a.setLikeBy(null);
-        // a.setLikePost(Post.builder().id(a.getLikePost().getId()).build());
-        // });
-        // user.getUserComments().forEach(a->{
-        // a.setCommentBy(null);
-        // a.setCommentPost(Post.builder().id(a.getCommentPost().getId()).build());
-        // });
+        // map.put("posts", postList);
+        // return map;
         return user;
     }
 
@@ -130,5 +145,37 @@ public class UserServiceImpl {
     public List<Map<String,Object>> getUserComments(String email) {
         return commentDao.getCommentsOfUser(email);
        
+    }
+
+    public User loadDifferentUserById(long userId) {
+        User user= userDao.findById(userId).orElse(null);
+        if(user==null)
+            return null;
+        // Map<String,Object> map=new HashMap<>();
+        // map.put("id", user.getId());
+        // map.put("createdAt", user.getCreatedAt());
+        // map.put("dob", user.getDob());
+        // map.put("email", user.getEmail());
+        // map.put("firstName", user.getFirstName());
+        // map.put("lastName", user.getLastName());
+        // map.put("phone", user.getPhone());
+
+        // List<Object> postList=new ArrayList<>();
+        // user.getPosts().forEach(post->{
+        //     Map<String,Object> posts=new HashMap<>();
+        //     posts.put("id", post.getId());
+        //     posts.put("created_at", post.getCreatedAt());
+        //     posts.put("title", post.getTitle());
+        //     posts.put("total_likes", post.getTotalLikes());
+        //     posts.put("email", post.getCreatedBy().getEmail());
+        //     posts.put("first_name", post.getCreatedBy().getFirstName());
+        //     posts.put("last_name", post.getCreatedBy().getLastName());
+        //     posts.put("created_by_id", post.getCreatedBy().getId());
+        //     postList.add(posts);
+        // });
+        // map.put("posts", postList);
+        // return map;
+        user.setPassword(null);
+        return user;
     }
 }

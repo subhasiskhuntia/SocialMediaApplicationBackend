@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +53,9 @@ public class PostController {
     public List<Comment> getCommentOnAPost(@RequestBody Map<String,String> requestMap){
         Long postId=Long.parseLong(requestMap.get("postId"));
         return this.commentService.getCommentOnAPost(postId);
+    }
+    @GetMapping(value = "api/user/post/{id}")
+    public Map<String,Object> getSpecificPost(@PathVariable("id") long id){
+        return this.postService.getThisPosts(id);
     }
 }

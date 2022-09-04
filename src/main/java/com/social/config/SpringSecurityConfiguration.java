@@ -71,7 +71,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/api/user/addComment",
 						"/api/user/commentOnAPost",
 						"/api/user/getUserComments",
-						"/api/user/getUsersLikeOnPosts"
+						"/api/user/getUsersLikeOnPosts",
+						"/api/user/loadDifferentUserById"
 						)
 						.hasAnyRole("USER", "ADMIN")
 						.antMatchers("/authenticate",

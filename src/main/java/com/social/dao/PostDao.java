@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.social.entity.Post;
 
 public interface PostDao  extends JpaRepository<Post,Long>{
-    @Query(value = "select post.*,user.email,user.first_name,user.last_name from post "+ 
+    @Query(value = "select post.id as id, post.title as title , post.total_likes as totalLikes , post.created_at as createdAt ,post.created_by_id as createdById ,user.email,user.first_name,user.last_name from post "+ 
     "inner join ( select"+ 
        " case "+
             "when user1_id=:id and accept=1 then user2_id "+ 
